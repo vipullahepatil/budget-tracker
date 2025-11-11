@@ -6,5 +6,5 @@ def health_check(request):
     """
     return JsonResponse({
         "status": "ok",
-        "message": "Backend is running successfully"
+        "message": "Backend is running successfully - I Love You Babu"
     })
