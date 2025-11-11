@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-6rwg&4*wiygi$qeslz0zg8kq5rg!l!zcocctck*5!&9_fred-8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['budget-tracker-bvrx.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'budget-tracker-bvrx.onrender.com', 
+    'localhost', 
+    '127.0.0.1',
+    'http://127.0.0.1:5173',
+]
 
 
 
@@ -38,9 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
