@@ -1,0 +1,36 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+
+# Node
+frontend/node_modules/
+frontend/build/
+
+# OS files
+.DS_Store
+
+# Env files
+*.env
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+
+# Virtual environment
+venv/
+env/
+
+# Django stuff
+/static/
+media/
+
+# VSCode / IDE
+.vscode/
+.idea/
+
+# Environment variables
+.env
