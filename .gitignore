@@ -62,3 +62,6 @@ Thumbs.db
 
 # vercel
 .vercel/
+
+setup_local.sh 
+run_local.sh
