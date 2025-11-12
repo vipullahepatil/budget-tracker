@@ -17,8 +17,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.sqlite3
-db.sqlite3
+# *.sqlite3
+# db.sqlite3
 
 # Virtual environment
 venv/
@@ -64,4 +64,4 @@ Thumbs.db
 .vercel/
 
 setup_local.sh 
-run_local.sh
+run_local.shstaticfiles/

@@ -1,4 +1,7 @@
-#!/bin/bash
-echo "Starting Django server..."
-source venv/bin/activate
-python3 manage.py runserver 127.0.0.1:8000
+#!/usr/bin/env bash
+echo "🚀 Starting Django server with Gunicorn..."
+
+set -o errexit
+
+# Start using Gunicorn (Render expects process to listen on $PORT)
+gunicorn budget_backend.wsgi:application --bind 0.0.0.0:$PORT

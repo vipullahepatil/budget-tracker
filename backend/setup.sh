@@ -1,23 +1,20 @@
-#!/bin/bash
-echo "Setting up backend environment..."
+#!/usr/bin/env bash
+echo "🔧 Setting up backend environment..."
 
-# Create venv if not exists
-if [ ! -d "venv" ]; then
-    python3 -m venv venv
-    echo "Virtual environment created."
-else
-    echo "Virtual environment already exists."
-fi
-
-# Activate venv
-source venv/bin/activate
+set -o errexit  # exit on first error
 
 # Install dependencies
+echo "📦 Installing dependencies..."
 pip install --upgrade pip
-pip install -r requirements.txt && python manage.py collectstatic --noinput
+pip install -r requirements.txt
 
+# Run migrations
+echo "🗃️ Running migrations..."
+python manage.py makemigrations --noinput
+python manage.py migrate --noinput
 
-# Apply migrations
-python3 manage.py migrate
+# Collect static files
+echo "📂 Collecting static files..."
+python manage.py collectstatic --noinput
 
-echo "Backend setup complete."
+echo "✅ Backend setup complete."
