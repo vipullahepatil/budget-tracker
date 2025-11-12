@@ -36,12 +36,11 @@ import { useEffect, useState } from "react";
 function App() {
   const [message, setMessage] = useState("Loading...");
 
-  const API_BASE_URL =
-    import.meta.env.VITE_API_URL ||
-    "https://budget-tracker-bvrx.onrender.com"; // use full Render URL
+  const API_BASE_URL = import.meta.env.VITE_API_URL
+    // "https://budget-tracker-bvrx.onrender.com"; // use full Render URL
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/health/`)
+    fetch(`${API_BASE_URL}/health/`)
       .then((res) => {
         if (!res.ok) throw new Error("Network error");
         return res.json();
