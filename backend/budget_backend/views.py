@@ -1,4 +1,4 @@
-from django.http import JsonResponse , HttpResponse
+from django.http import JsonResponse 
 
 def health_check(request):
     """
@@ -9,7 +9,6 @@ def health_check(request):
         "message": "Backend is running successfully",
     })
 
-def love_you(request):
     html_content = """
     <html>
         <head>
