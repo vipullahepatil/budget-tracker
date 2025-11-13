@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
@@ -7,7 +8,6 @@ function DashboardChart({ summary }) {
   useEffect(() => {
     if (!summary) return;
 
-    // Clear previous chart (for hot reloads)
     d3.select(chartRef.current).selectAll("*").remove();
 
     const data = [
@@ -37,7 +37,6 @@ function DashboardChart({ summary }) {
       .nice()
       .range([height - margin.bottom, margin.top]);
 
-    // Bars
     svg
       .selectAll("rect")
       .data(data)
@@ -51,19 +50,16 @@ function DashboardChart({ summary }) {
         d.label === "Income" ? "#22c55e" : "#ef4444"
       );
 
-    // X-axis
     svg
       .append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(x));
 
-    // Y-axis
     svg
       .append("g")
       .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y));
 
-    // Chart title
     svg
       .append("text")
       .attr("x", width / 2)
@@ -74,7 +70,13 @@ function DashboardChart({ summary }) {
       .text("Income vs Expenses");
   }, [summary]);
 
-  return <div ref={chartRef} className="mt-10" />;
+  return (
+    <div className="bg-white p-6 rounded-xl shadow max-w-4xl mx-auto text-center">
+      <div ref={chartRef} className="flex justify-center"></div>
+    </div>
+  );
 }
 
 export default DashboardChart;
+
+

@@ -27,7 +27,7 @@ function Budget() {
       }
 
       // 2️⃣ Get actual expenses from dashboard summary
-      const summaryRes = await axios.get(`${API_BASE_URL}/api/dashboard/summary/`, {
+      const summaryRes = await axios.get(`${API_BASE_URL}/api/dashboard/`, {
         headers: { Authorization: `Token ${token}` },
       });
 
