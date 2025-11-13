@@ -43,5 +43,23 @@ class TransactionSerializer(serializers.ModelSerializer):
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget
-        fields = "__all__"
-        read_only_fields = ["user"]
+        fields = '__all__'
+        read_only_fields = ['user', 'created_at']
+
+    def validate(self, data):
+        user = self.context['request'].user
+        month = data.get('month')
+        year = data.get('year')
+        amount = data.get('amount')
+
+        if amount is not None and amount <= 0:
+            raise serializers.ValidationError("Budget amount must be greater than 0.")
+
+        if Budget.objects.filter(user=user, month=month, year=year).exists():
+            raise serializers.ValidationError("Budget for this month and year already exists.")
+
+        today = date.today()
+        if year > today.year or (year == today.year and month > 12):
+            raise serializers.ValidationError("Invalid month or year.")
+
+        return data

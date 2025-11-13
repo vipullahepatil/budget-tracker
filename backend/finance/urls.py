@@ -3,7 +3,7 @@ from .views import (
     CategoryViewSet,
     TransactionViewSet,
     BudgetViewSet,
-    DashboardSummaryView,
+    DashboardView,
 )
 from rest_framework.routers import DefaultRouter
 
@@ -13,6 +13,6 @@ router.register('transactions', TransactionViewSet, basename='transaction')
 router.register('budgets', BudgetViewSet, basename='budget')
 
 urlpatterns = [
-    path('dashboard/summary/', DashboardSummaryView.as_view(), name='dashboard-summary'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('', include(router.urls)),
 ]
