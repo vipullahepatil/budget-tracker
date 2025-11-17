@@ -49,8 +49,8 @@ class BudgetSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         user = self.context['request'].user
-        month = data.get('month') or self.instance.month if self.instance else None
-        year = data.get('year') or self.instance.year if self.instance else None
+        month = data.get('month') 
+        year = data.get('year') 
         amount = data.get('amount')
 
         if amount is not None and amount <= 0:
