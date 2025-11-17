@@ -365,14 +365,14 @@ function Dashboard() {
         )}
 
         {/* Logout */}
-        <div className="text-center mt-10">
+        {/* <div className="text-center mt-10">
           <button
             onClick={handleLogout}
             className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700"
           >
             Logout
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );
