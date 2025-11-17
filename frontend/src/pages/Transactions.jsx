@@ -1,88 +1,79 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../utils/axios";
+import Navbar from "../components/Navbar";
 import TransactionForm from "../components/TransactionForm";
 import TransactionList from "../components/TransactionList";
-import Navbar from "../components/Navbar";
 
 function Transactions() {
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [transactions, setTransactions] = useState([]);
-  const [editTx, setEditTx] = useState(null);
-  const [filters, setFilters] = useState({ category: "", start: "", end: "" });
+  const [filters, setFilters] = useState({
+    date: "",
+    category: "",
+    type: "",
+    min_amount: "",
+    max_amount: "",
+  });
+
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [editing, setEditing] = useState(null); // 🔥 stores editing record
 
   const fetchTransactions = async () => {
-    const token = localStorage.getItem("access_token");
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/transactions/`, {
-        headers: { Authorization: `Token ${token}` },
+      const res = await axios.get(`/transactions/`, {
         params: {
-          category: filters.category,
-          start_date: filters.start,
-          end_date: filters.end,
+          page,
+          start_date: filters.date,
+          end_date: filters.date,
+          category_name: filters.category,
+          category_type: filters.type,
+          min_amount: filters.min_amount,
+          max_amount: filters.max_amount,
         },
       });
-      setTransactions(res.data.results || res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
-  const handleDelete = async (id) => {
-    const token = localStorage.getItem("access_token");
-    await axios.delete(`${API_BASE_URL}/api/transactions/${id}/`, {
-      headers: { Authorization: `Token ${token}` },
-    });
-    fetchTransactions();
+      const items = res.data.results?.data || [];
+      setTransactions(items);
+      setTotalPages(Math.ceil(res.data.count / 5));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
     fetchTransactions();
-  }, [filters]);
+  }, [page]);
 
   return (
-    <>
-    <Navbar />
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10 px-4">
-      <h1 className="text-3xl font-bold mb-6">Transactions</h1>
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
 
-      <TransactionForm onSuccess={fetchTransactions} editTransaction={editTx} />
+      <div className="max-w-5xl mx-auto p-6">
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-6">
-        <input
-          placeholder="Category"
-          value={filters.category}
-          onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-          className="border p-2 rounded"
+        <h1 className="text-2xl font-bold mb-6">Transactions</h1>
+
+        {/* 🔥 Pass editing object + setter */}
+        <TransactionForm
+          onSuccess={fetchTransactions}
+          editing={editing}
+          setEditing={setEditing}
         />
-        <input
-          type="date"
-          value={filters.start}
-          onChange={(e) => setFilters({ ...filters, start: e.target.value })}
-          className="border p-2 rounded"
+
+        <TransactionList
+          transactions={transactions}
+          filters={filters}
+          setFilters={setFilters}
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          onRefresh={fetchTransactions}
+          onEdit={setEditing} // 🔥 when click edit, fill form
         />
-        <input
-          type="date"
-          value={filters.end}
-          onChange={(e) => setFilters({ ...filters, end: e.target.value })}
-          className="border p-2 rounded"
-        />
-        <button
-          onClick={fetchTransactions}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Apply Filters
-        </button>
       </div>
-
-      <TransactionList
-        transactions={transactions}
-        onDelete={handleDelete}
-        onEdit={setEditTx}
-      />
     </div>
-    </>
   );
 }
 
 export default Transactions;
+

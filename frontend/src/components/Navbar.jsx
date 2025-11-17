@@ -1,41 +1,54 @@
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Navbar() {
-  const location = useLocation();
+  const navigate = useNavigate();
 
-  const linkClasses = (path) =>
-    `px-4 py-2 rounded-md transition-all duration-200 ${location.pathname === path
-      ? "bg-white text-blue-600 font-semibold shadow-sm"
-      : "hover:bg-blue-500 text-white"
-    }`;
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   return (
-    <nav className="bg-blue-600 shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-14 items-center">
-          {/* Logo / App Name */}
-          <Link
+    <nav className="bg-white shadow px-6 py-4 mb-6">
+      <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 className="text-xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate("/dashboard")}>
+          Budget Tracker
+        </h1>
+
+        <div className="flex gap-6">
+          <NavLink
             to="/dashboard"
-            className="text-white font-bold text-xl tracking-wide hover:opacity-90"
+            className={({ isActive }) =>
+              `font-medium ${isActive ? "text-blue-600" : "text-gray-600"}`
+            }
           >
-            💰 Budget Tracker
-          </Link>
+            Dashboard
+          </NavLink>
 
-          <div className="flex space-x-2">
-            <Link to="/dashboard" className={linkClasses("/dashboard")}>
-              Dashboard
-            </Link>
-            <Link to="/transactions" className={linkClasses("/transactions")}>
-              Transactions
-            </Link>
-            <Link to="/budget" className={linkClasses("/budget")}>
-              Budget
-            </Link>
-          </div>
+          <NavLink
+            to="/transactions"
+            className={({ isActive }) =>
+              `font-medium ${isActive ? "text-blue-600" : "text-gray-600"}`
+            }
+          >
+            Transactions
+          </NavLink>
 
+          <NavLink
+            to="/budget"
+            className={({ isActive }) =>
+              `font-medium ${isActive ? "text-blue-600" : "text-gray-600"}`
+            }
+          >
+            Budget
+          </NavLink>
 
-          {/* Mobile Menu (Optional Future Enhancement) */}
-          {/* You can add a menu icon toggle here for small screens if needed */}
+          <button
+            onClick={logout}
+            className="font-medium text-red-600 ml-4"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </nav>

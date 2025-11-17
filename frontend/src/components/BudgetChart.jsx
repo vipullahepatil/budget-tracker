@@ -1,74 +1,44 @@
-// src/components/BudgetChart.jsx
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-function BudgetChart({ budget, actual }) {
+function BudgetChart({ budget }) {
   const chartRef = useRef();
 
   useEffect(() => {
-    if (budget === null || actual === null) return;
-
-    d3.select(chartRef.current).selectAll("*").remove();
+    if (!budget) return;
 
     const data = [
-      { label: "Budget", value: budget },
-      { label: "Expenses", value: actual },
+      { label: "Expenses", value: budget.total_expenses },
+      { label: "Remaining", value: budget.amount - budget.total_expenses },
     ];
 
-    const width = 400;
-    const height = 250;
-    const margin = { top: 20, right: 20, bottom: 40, left: 50 };
-
+    const w = 260, h = 260, r = 120;
     const svg = d3
       .select(chartRef.current)
+      .html("")
       .append("svg")
-      .attr("width", width)
-      .attr("height", height);
+      .attr("width", w)
+      .attr("height", h);
 
-    const x = d3
-      .scaleBand()
-      .domain(data.map((d) => d.label))
-      .range([margin.left, width - margin.right])
-      .padding(0.4);
+    const colors = d3.scaleOrdinal(["#EF4444", "#22C55E"]);
 
-    const y = d3
-      .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value)])
-      .nice()
-      .range([height - margin.bottom, margin.top]);
+    const g = svg.append("g").attr("transform", `translate(${w / 2},${h / 2})`);
 
-    svg
-      .selectAll("rect")
-      .data(data)
+    const pie = d3.pie().value((d) => d.value);
+
+    g.selectAll("path")
+      .data(pie(data))
       .enter()
-      .append("rect")
-      .attr("x", (d) => x(d.label))
-      .attr("y", (d) => y(d.value))
-      .attr("width", x.bandwidth())
-      .attr("height", (d) => y(0) - y(d.value))
-      .attr("fill", (d) => (d.label === "Budget" ? "#3b82f6" : "#ef4444"));
+      .append("path")
+      .attr("d", d3.arc().innerRadius(0).outerRadius(r))
+      .attr("fill", (d, i) => colors(i));
+  }, [budget]);
 
-    svg
-      .append("g")
-      .attr("transform", `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x));
-
-    svg
-      .append("g")
-      .attr("transform", `translate(${margin.left},0)`)
-      .call(d3.axisLeft(y));
-
-    svg
-      .append("text")
-      .attr("x", width / 2)
-      .attr("y", margin.top)
-      .attr("text-anchor", "middle")
-      .attr("font-size", "16px")
-      .attr("font-weight", "bold")
-      .text("Budget vs Actual Expenses");
-  }, [budget, actual]);
-
-  return <div ref={chartRef} className="mt-10" />;
+  return (
+    <div className="flex justify-center mt-6">
+      <div ref={chartRef}></div>
+    </div>
+  );
 }
 
 export default BudgetChart;

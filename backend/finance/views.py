@@ -199,10 +199,8 @@ class BudgetViewSet(viewsets.ModelViewSet):
         month = self.request.query_params.get("month")
         year = self.request.query_params.get("year")
 
-        if month:
-            queryset = queryset.filter(month=month)
-        if year:
-            queryset = queryset.filter(year=year)
+        if month and year:
+            queryset = queryset.filter(month=month,year=year)
 
         return queryset.order_by("-year", "-month")
 

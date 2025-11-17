@@ -1,16 +1,89 @@
-# React + Vite
+# Personal Budget Tracker – Full Stack Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A complete Income/Expense tracker built with:
 
-Currently, two official plugins are available:
+- **Backend:** Django + Django REST Framework
+- **Frontend:** React + Vite + Tailwind + D3.js
+- **Hosting:** Backend on Render, Frontend on Vercel
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+# 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🔐 Authentication
+- Token-based login (DRF Auth Token)
+- Protected routes in frontend
 
-## Expanding the ESLint configuration
+## 📊 Dashboard
+- Total Income
+- Total Expenses
+- Balance
+- Filters: Month, Year
+- D3.js chart visualization
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💸 Transactions
+- Add/Edit/Delete transactions
+- Income & Expense categories
+- Filters by:
+  - Date
+  - Category
+  - Type (income/expense)
+  - Amount range
+- Pagination (10 per page)
+
+## 💰 Budget Management
+- Set monthly budget
+- View current budget
+- Compare expenses vs budget
+- D3 pie chart visualization
+
+---
+
+# 🛠 Tech Stack
+
+### Backend
+- Django
+- Django REST Framework
+- SQLite / PostgreSQL
+- DRF Auth Token
+
+### Frontend
+- React + Vite
+- Tailwind CSS
+- Axios
+- D3.js
+
+---
+
+# 🌐 Live Links (Required)
+
+Frontend (Vercel):
+👉 https://your-frontend.vercel.app/
+
+Backend API (Render):
+👉 https://your-backend.onrender.com/api/
+
+GitHub Repositories:
+- Frontend Repo → https://github.com/yourname/budget-tracker-frontend
+- Backend Repo → https://github.com/yourname/budget-tracker-backend
+
+---
+
+# 🧪 Test Credentials
+
+- **Username:** testuser
+- **Password:** testpass123
+
+
+
+
+---
+
+# 🧩 How to Run Locally
+
+### Backend
+
+```bash
+cd backend
+pip install -r requirements.txt
+python manage.py runserver

@@ -1,5 +1,124 @@
+// import { useEffect, useState } from "react";
+// import Navbar from "../components/Navbar";
+// import api from "../services/api";
+// import DashboardChart from "../components/DashboardChart";
+
+// function Dashboard() {
+//   const [summary, setSummary] = useState(null);
+//   const [error, setError] = useState("");
+//   const [filters, setFilters] = useState({
+//     month: "",
+//     year: "",
+//     search: "",
+//     sort_by: "date",
+//     order: "desc",
+//   });
+//   const fetchSummary = async () => {
+//     try {
+//       const res = await api.getSummary(filters);
+//       setSummary(res.data.data);
+//       setError("");
+//     } catch (err) {
+//       setError("Unable to fetch dashboard data");
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchSummary();
+//   }, [filters]);
+
+//   const handleChange = (e) => {
+//     setFilters({ ...filters, [e.target.name]: e.target.value });
+//   };
+
+//   const handleLogout = () => {
+//     localStorage.removeItem("access_token");
+//     window.location.href = "/";
+//   };
+//     const exportJSON = () => {
+//     if (!summary) return;
+//     const blob = new Blob([JSON.stringify(summary, null, 2)], {
+//       type: "application/json",
+//     });
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement("a");
+//     a.href = url;
+//     a.download = `dashboard_${filters.month || "all"}_${filters.year || "all"}.json`;
+//     a.click();
+//     URL.revokeObjectURL(url);
+//   };
+
+//   const exportCSV = () => {
+//     if (!summary) return;
+//     const transactions = summary.transactions || [];
+
+//     const headers = ["Date", "Category", "Type", "Amount", "Description"];
+//     const rows = transactions.map((t) => [
+//       t.date,
+//       t.category__name,
+//       t.category__type,
+//       t.amount,
+//       t.description,
+//     ]);
+
+//     const csvContent =
+//       [headers, ...rows].map((r) => r.join(",")).join("\n");
+
+//     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement("a");
+//     a.href = url;
+//     a.download = `transactions_${filters.month || "all"}_${filters.year || "all"}.csv`;
+//     a.click();
+//     URL.revokeObjectURL(url);
+//   };
+
+//   return (
+//     <div className="bg-gray-100 min-h-screen">
+//       <Navbar />
+
+//       <div className="max-w-6xl mx-auto p-6 space-y-6">
+//         {summary && (
+//           <>
+//             <div className="grid md:grid-cols-3 gap-6">
+//               <div className="p-4 bg-white shadow rounded">
+//                 <h3>Total Income</h3>
+//                 <p className="text-green-600 text-xl font-bold">
+//                   ₹{summary.total_income}
+//                 </p>
+//               </div>
+
+//               <div className="p-4 bg-white shadow rounded">
+//                 <h3>Total Expenses</h3>
+//                 <p className="text-red-600 text-xl font-bold">
+//                   ₹{summary.total_expenses}
+//                 </p>
+//               </div>
+
+//               <div className="p-4 bg-white shadow rounded">
+//                 <h3>Balance</h3>
+//                 <p className="text-blue-600 text-xl font-bold">
+//                   ₹{summary.balance}
+//                 </p>
+//               </div>
+//             </div>
+
+            
+
+//             <DashboardChart summary={summary} />
+//           </>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Dashboard;
+
+
+
+import api from "../services/api";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import * as d3 from "d3";
 import Navbar from "../components/Navbar";
 
@@ -14,21 +133,17 @@ function Dashboard() {
     order: "desc",
   });
 
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-  const fetchSummary = async () => {
+    const fetchSummary = async () => {
     try {
-      const token = localStorage.getItem("access_token");
-      const res = await axios.get(`${API_BASE_URL}/api/dashboard/`, {
-        headers: { Authorization: `Token ${token}` },
-        params: filters,
-      });
+      const res = await api.getSummary(filters);
       setSummary(res.data.data);
       setError("");
     } catch (err) {
       setError("Unable to fetch dashboard data");
     }
   };
+
 
   useEffect(() => {
     fetchSummary();
@@ -60,7 +175,7 @@ function Dashboard() {
   const exportCSV = () => {
     if (!summary) return;
     const transactions = summary.transactions || [];
-
+    debugger
     const headers = ["Date", "Category", "Type", "Amount", "Description"];
     const rows = transactions.map((t) => [
       t.date,

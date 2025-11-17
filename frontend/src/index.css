@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Form background, padding, rounded border */
+form {
+    /* background: #55acf3; */
+    padding: 0.25em;
+    border-radius: 0.25em;
+}
+
+/* Center align wrapper */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Error message in red */
+.error-message {
+    margin-top: 0.25em;
+    color: red;
+}

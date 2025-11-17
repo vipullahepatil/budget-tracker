@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Category, Transaction, Budget
-from datetime import date
+from django.utils.timezone import now
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -25,6 +25,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         category = data.get("category")
         amount = data.get("amount")
         txn_date = data.get("date")
+        today = now().date() 
 
         if category and category.user != user:
             raise serializers.ValidationError(
@@ -34,7 +35,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         if amount is not None and amount <= 0:
             raise serializers.ValidationError("Amount must be greater than 0.")
 
-        if txn_date and txn_date > date.today():
+        if txn_date and txn_date > today:
             raise serializers.ValidationError("Date cannot be in the future.")
 
         return data
@@ -58,7 +59,7 @@ class BudgetSerializer(serializers.ModelSerializer):
         if Budget.objects.filter(user=user, month=month, year=year).exists():
             raise serializers.ValidationError("Budget for this month and year already exists.")
 
-        today = date.today()
+        today = now().date() 
         if year > today.year or (year == today.year and month > 12):
             raise serializers.ValidationError("Invalid month or year.")
 
