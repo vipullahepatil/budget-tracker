@@ -4,36 +4,69 @@ import BudgetChart from "./BudgetChart";
 
 function BudgetSection({ budget, refresh }) {
   const [amount, setAmount] = useState("");
+  const [msg, setMsg] = useState("");
 
-  const save = async () => {
-    await api.saveBudget({ amount });
-    setAmount("");
-    refresh();
+  const saveBudget = async () => {
+    try {
+      await api.saveBudget({ amount });
+      setAmount("");
+      setMsg("Budget updated!");
+      setTimeout(() => setMsg(""), 2000);
+      refresh();
+    } catch (err) {
+      setMsg("Error saving budget");
+    }
   };
 
-  return (
-    <div className="bg-white p-6 shadow rounded">
-      <h2 className="text-xl font-semibold mb-4">Monthly Budget</h2>
+  const monthName = new Date().toLocaleString("en-US", { month: "long" });
+  const year = new Date().getFullYear();
 
-      <div className="flex gap-4 mb-4">
+  return (
+    <div className="bg-white p-6 rounded-xl shadow-md">
+
+      {msg && (
+        <div className="mb-4 p-3 bg-green-200 text-green-700 font-semibold rounded">
+          {msg}
+        </div>
+      )}
+
+      <h2 className="text-xl font-semibold mb-2">
+        {monthName} {year} Budget
+      </h2>
+
+      {/* Input Section */}
+      <div className="flex gap-3 mb-4">
         <input
           type="number"
-          className="input"
-          placeholder="Budget amount"
+          className="input w-full"
+          placeholder="Enter monthly budget"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
-
-        <button onClick={save} className="bg-blue-600 text-white px-4 py-2 rounded">
-          Save
+        <button
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+          onClick={saveBudget}
+        >
+          {budget ? "Update" : "Save"}
         </button>
       </div>
 
+      {/* Show summary if budget exists */}
       {budget && (
         <>
-          <p className="mb-3">
-            Current Budget: <strong>₹{budget.amount}</strong>
-          </p>
+          <div className="mb-3">
+            <p className="text-lg">
+              <strong>Budget:</strong> ₹{budget.amount}
+            </p>
+
+            <p className="text-lg">
+              <strong>Total Expenses:</strong> ₹{budget.total_expenses}
+            </p>
+
+            <p className="text-lg">
+              <strong>Remaining:</strong> ₹{budget.amount - budget.total_expenses}
+            </p>
+          </div>
 
           <BudgetChart budget={budget} />
         </>

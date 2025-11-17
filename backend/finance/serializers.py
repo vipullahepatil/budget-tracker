@@ -49,18 +49,22 @@ class BudgetSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         user = self.context['request'].user
-        month = data.get('month')
-        year = data.get('year')
+        month = data.get('month') or self.instance.month if self.instance else None
+        year = data.get('year') or self.instance.year if self.instance else None
         amount = data.get('amount')
 
         if amount is not None and amount <= 0:
             raise serializers.ValidationError("Budget amount must be greater than 0.")
 
-        if Budget.objects.filter(user=user, month=month, year=year).exists():
+        qs = Budget.objects.filter(user=user, month=month, year=year)
+        if self.instance:
+            qs = qs.exclude(id=self.instance.id)
+
+        if qs.exists():
             raise serializers.ValidationError("Budget for this month and year already exists.")
 
-        today = now().date() 
-        if year > today.year or (year == today.year and month > 12):
+        today = now().date()
+        if year > today.year or not (1 <= month <= 12):
             raise serializers.ValidationError("Invalid month or year.")
 
         return data
