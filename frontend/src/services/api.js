@@ -23,6 +23,9 @@ export default {
 
   getCategories: () => api.get("/categories/"),
   createCategory: (data) => api.post("/categories/", data),
+  updateCategory: (id, data) => api.put(`/categories/${id}/`, data),
+  deleteCategory: (data) => api.delete(`/categories/${id}/`),
+
 
   saveBudget: (data) => api.post("/budgets/", data),
   getBudget: (params) => api.get("/budgets/", { params }),

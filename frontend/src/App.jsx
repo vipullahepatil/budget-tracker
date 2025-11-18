@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Budget from "./pages/Budget";
 import PrivateRoute from "./components/PrivateRoute";
+import Category from "./pages/Category";
 
 function App() {
   return (
@@ -23,6 +24,15 @@ function App() {
         />
 
         <Route
+          path="/budget"
+          element={
+            <PrivateRoute>
+              <Budget />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
           path="/transactions"
           element={
             <PrivateRoute>
@@ -32,13 +42,15 @@ function App() {
         />
 
         <Route
-          path="/budget"
+          path="/categories"
           element={
             <PrivateRoute>
-              <Budget />
+              <Category />
             </PrivateRoute>
           }
         />
+
+        
 
       </Routes>
     </BrowserRouter>

@@ -26,6 +26,15 @@ function Navbar() {
           </NavLink>
 
           <NavLink
+            to="/budget"
+            className={({ isActive }) =>
+              `font-medium ${isActive ? "text-blue-600" : "text-gray-600"}`
+            }
+          >
+            Budget
+          </NavLink>
+
+          <NavLink
             to="/transactions"
             className={({ isActive }) =>
               `font-medium ${isActive ? "text-blue-600" : "text-gray-600"}`
@@ -35,13 +44,15 @@ function Navbar() {
           </NavLink>
 
           <NavLink
-            to="/budget"
+            to="/categories"
             className={({ isActive }) =>
               `font-medium ${isActive ? "text-blue-600" : "text-gray-600"}`
             }
           >
-            Budget
+            Categories
           </NavLink>
+
+
 
           <button
             onClick={logout}
