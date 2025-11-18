@@ -123,7 +123,7 @@ python manage.py test
   - `frontend/src/pages` and `frontend/src/components` — UI
 
 **Assessment Submission**
-
+- **Code repository:** [GitHub Repository Link](https://github.com/vipullahepatil/budget-tracker)
 - **Frontend (hosted):** `https://budget-tracker-mtgy.vercel.app/dashboard`
 - **Backend (hosted / API):** `https://dashboard.render.com/web/srv-d49ono2dbo4c73ac8jsg`
 
